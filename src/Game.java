@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game {
     //Filling the table
@@ -34,19 +35,23 @@ public class Game {
     public ArrayList<String> getToLocateShips() {
         return toLocateShips;
     }
-    public void setToLocateShips(ArrayList<String> toLocateShips) {
-        this.toLocateShips = toLocateShips;
+    public void setToLocateShips() {
+        ArrayList<String> list = new ArrayList<>();
+        this.toLocateShips = list;
     }
     public ArrayList<String> getUncorrectPositions() {
         return uncorrectPositions;
     }
-    public void setUncorrectPositions(ArrayList<String> uncorrectPositions) {
-        this.uncorrectPositions = uncorrectPositions;
+    public void setUncorrectPositions() {
+        ArrayList<String> list = new ArrayList<>();
+        this.uncorrectPositions = list;
     }
     public ArrayList createShips(){
-        int numOne = (int)(Math.random()*2);
+        setToLocateShips();
+        setUncorrectPositions();
         char[] array = {'A','B','C','D','E','F','G','H','I','G'};
-        while (toLocateShips.size() != 9) {
+        while (toLocateShips.size() != 9 ) {
+            int numOne = (int)(Math.random()*2);
             if (numOne == 1) {
                 int numOneLength = (int) (Math.random() * 7);
                 char numOneWidth = array[(int) (Math.random() * 10)];
@@ -110,6 +115,7 @@ public class Game {
         }
         if(toLocateShips.indexOf(pushInt) < 0){
             System.out.println("Hit");
+            table[pushInt.charAt(1)-'A'+1][pushInt.charAt(0)-'0'+1] = "1";
             return 0;
         }
         else {
@@ -122,14 +128,24 @@ public class Game {
                 }
             if(toLocateShips.size() != 9 & newCount == 0) {
                 System.out.println("Sank! Find others");
-                table[pushInt.charAt(0)-'0'][pushInt.charAt(1)-'A'] = "*";
+                table[pushInt.charAt(1)-'A'+1][pushInt.charAt(0)-'0'+1] = "*";
                 return 1;
             }
             else{
                 System.out.println("Got it");
-                table[pushInt.charAt(0)-'0'][pushInt.charAt(1)-'A'] = "*";
+                table[pushInt.charAt(1)-'A'+1][pushInt.charAt(0)-'0'+1] = "*";
                 return 1;
             }
+        }
+    }
+
+    public void showTable(){
+        System.out.println("Table of comp:");
+        for(int i = 0; i < 11; i++){
+            for(int j = 0; j < 11; j++){
+                System.out.print(table[i][j]+" ");
+            }
+            System.out.println();
         }
     }
 }
